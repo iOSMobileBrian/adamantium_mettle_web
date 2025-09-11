@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../widgets/navigation_bar.dart';
+import '../widgets/responsive_wrapper.dart';
 import '../widgets/app_card.dart';
+import '../widgets/footer.dart';
 
 class AppsPage extends StatelessWidget {
   const AppsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomNavigationBar(),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth >= 1024;
+    final isTablet = screenWidth >= 768 && screenWidth < 1024;
+    final isMobile = screenWidth < 768;
+    
+    return ResponsiveWrapper(
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(80),
+          padding: EdgeInsets.all(isMobile ? 16 : (isTablet ? 40 : 80)),
           child: Column(
             children: [
-              const Text(
+              Text(
                 'Our Apps',
                 style: TextStyle(
-                  fontSize: 42,
+                  fontSize: isMobile ? 28 : (isTablet ? 36 : 42),
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2C3E50),
+                  color: const Color(0xFF2C3E50),
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 'Discover our collection of innovative mobile applications available on iOS and Android platforms.',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: isMobile ? 14 : (isTablet ? 16 : 18),
                   color: Colors.black87,
                 ),
                 textAlign: TextAlign.center,
@@ -36,12 +41,12 @@ class AppsPage extends StatelessWidget {
               const SizedBox(height: 60),
               
               // App Store Section
-              const Text(
+              Text(
                 'Available on iOS App Store',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: isMobile ? 22 : (isTablet ? 28 : 32),
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2C3E50),
+                  color: const Color(0xFF2C3E50),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -49,8 +54,8 @@ class AppsPage extends StatelessWidget {
               
               // iOS Apps Grid
               Wrap(
-                spacing: 40,
-                runSpacing: 40,
+                spacing: isMobile ? 16 : (isTablet ? 24 : 40),
+                runSpacing: isMobile ? 16 : (isTablet ? 24 : 40),
                 alignment: WrapAlignment.center,
                 children: const [
                   AppCard(
@@ -87,12 +92,12 @@ class AppsPage extends StatelessWidget {
               const SizedBox(height: 80),
               
               // Google Play Section
-              const Text(
+              Text(
                 'Available on Google Play Store',
                 style: TextStyle(
-                  fontSize: 32,
+                  fontSize: isMobile ? 22 : (isTablet ? 28 : 32),
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF2C3E50),
+                  color: const Color(0xFF2C3E50),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -100,8 +105,8 @@ class AppsPage extends StatelessWidget {
               
               // Android Apps Grid
               Wrap(
-                spacing: 40,
-                runSpacing: 40,
+                spacing: isMobile ? 16 : (isTablet ? 24 : 40),
+                runSpacing: isMobile ? 16 : (isTablet ? 24 : 40),
                 alignment: WrapAlignment.center,
                 children: const [
                   AppCard(
@@ -128,76 +133,83 @@ class AppsPage extends StatelessWidget {
               const SizedBox(height: 60),
               
               // Store Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF007AFF), Color(0xFF0056CC)],
-                      ),
-                    ),
-                    child: ElevatedButton.icon(
-                      onPressed: () async {
-                        final uri = Uri.parse('https://apps.apple.com/us/developer/adamantium-mettle-l-l-c/id1027414490');
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri);
-                        }
-                      },
-                      icon: const Icon(Icons.apple, color: Colors.white),
-                      label: const Text(
-                        'View on App Store',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+              isMobile
+                  ? Column(
+                      children: [
+                        _buildStoreButton(
+                          'View on App Store',
+                          Icons.apple,
+                          [const Color(0xFF007AFF), const Color(0xFF0056CC)],
+                          'https://apps.apple.com/us/developer/adamantium-mettle-l-l-c/id1027414490',
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF01875F), Color(0xFF006241)],
-                      ),
-                    ),
-                    child: ElevatedButton.icon(
-                      onPressed: () async {
-                        final uri = Uri.parse('https://play.google.com/store/apps/developer?id=Adamantium+Mettle');
-                        if (await canLaunchUrl(uri)) {
-                          await launchUrl(uri);
-                        }
-                      },
-                      icon: const Icon(Icons.android, color: Colors.white),
-                      label: const Text(
-                        'View on Play Store',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        const SizedBox(height: 16),
+                        _buildStoreButton(
+                          'View on Play Store',
+                          Icons.android,
+                          [const Color(0xFF01875F), const Color(0xFF006241)],
+                          'https://play.google.com/store/apps/developer?id=Adamantium+Mettle',
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      ),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildStoreButton(
+                          'View on App Store',
+                          Icons.apple,
+                          [const Color(0xFF007AFF), const Color(0xFF0056CC)],
+                          'https://apps.apple.com/us/developer/adamantium-mettle-l-l-c/id1027414490',
+                        ),
+                        const SizedBox(width: 20),
+                        _buildStoreButton(
+                          'View on Play Store',
+                          Icons.android,
+                          [const Color(0xFF01875F), const Color(0xFF006241)],
+                          'https://play.google.com/store/apps/developer?id=Adamantium+Mettle',
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
+              const SizedBox(height: 60),
+              const Footer(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStoreButton(
+    String label,
+    IconData icon,
+    List<Color> gradientColors,
+    String url,
+  ) {
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(colors: gradientColors),
+      ),
+      child: ElevatedButton.icon(
+        onPressed: () async {
+          final uri = Uri.parse(url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          }
+        },
+        icon: Icon(icon, color: Colors.white),
+        label: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         ),
       ),
     );
