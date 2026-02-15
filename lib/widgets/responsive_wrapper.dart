@@ -53,12 +53,12 @@ class ResponsiveWrapper extends StatelessWidget {
               Icons.home,
               '/',
             ),
-            _buildDrawerItem(
-              context,
-              'Products',
-              Icons.inventory,
-              '/products',
-            ),
+            // _buildDrawerItem(
+            //   context,
+            //   'Products',
+            //   Icons.inventory,
+            //   '/products',
+            // ),
             _buildDrawerItem(
               context,
               'Apps',

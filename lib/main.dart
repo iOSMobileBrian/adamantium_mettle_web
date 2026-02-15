@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'pages/main_page.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'router.dart';
 
 void main() {
+  usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Adamantium Mettle, L.L.C.',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Arial',
       ),
-      home: const MainPage(),
+      routerConfig: router,
     );
   }
 }

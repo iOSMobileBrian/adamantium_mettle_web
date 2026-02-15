@@ -42,7 +42,7 @@ class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget
   List<Widget> _buildFullNavigation() {
     return [
       const NavButton(title: 'Home', route: '/'),
-      const NavButton(title: 'Products', route: '/products'),
+      //const NavButton(title: 'Products', route: '/products'),
       const NavButton(title: 'Apps', route: '/apps'),
       const NavButton(title: 'Support', route: '/support'),
       const NavButton(title: 'Contact', route: '/contact'),
@@ -52,7 +52,7 @@ class CustomNavigationBar extends StatelessWidget implements PreferredSizeWidget
   List<Widget> _buildTabletNavigation() {
     return [
       const NavButton(title: 'Home', route: '/'),
-      const NavButton(title: 'Products', route: '/products'),
+      //const NavButton(title: 'Products', route: '/products'),
       const NavButton(title: 'Apps', route: '/apps'),
       const NavButton(title: 'Contact', route: '/contact'),
     ];

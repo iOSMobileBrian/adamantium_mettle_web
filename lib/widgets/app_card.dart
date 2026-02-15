@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppCard extends StatelessWidget {
@@ -10,6 +11,7 @@ class AppCard extends StatelessWidget {
   final String? rating;
   final String iconUrl;
   final String storeUrl;
+  final String? privacyPolicyRoute;
 
   const AppCard({
     super.key,
@@ -21,6 +23,7 @@ class AppCard extends StatelessWidget {
     this.rating,
     required this.iconUrl,
     required this.storeUrl,
+    this.privacyPolicyRoute,
   });
 
   @override
@@ -226,6 +229,18 @@ class AppCard extends StatelessWidget {
                   ),
                 ),
               ),
+              if (privacyPolicyRoute != null)
+                TextButton(
+                  onPressed: () => context.go(privacyPolicyRoute!),
+                  child: const Text(
+                    'Privacy Policy',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF3498DB),
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
